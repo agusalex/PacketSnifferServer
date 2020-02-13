@@ -1,4 +1,4 @@
-from src.model.listener import Listener
+from src.model.serial_listener import SerialListener
 import csv, operator
 import time
 import keyboard
@@ -24,7 +24,7 @@ class Step:
             name_i = self.u_name_step[3:len(self.u_name_step) - 5] + str(self.device_list[i].port)
             name_i = name_i.replace('/', '_')
             self.listener_list.append(
-                Listener(i + 1, name_i, self.device_list[i].serial, self.sample_size, self.csv_values)
+                SerialListener(i + 1, name_i, self.device_list[i].serial, self.sample_size, self.csv_values)
             )
 
     def start(self, force_stop_key):
