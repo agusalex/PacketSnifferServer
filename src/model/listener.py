@@ -6,7 +6,7 @@ import time
 
 
 class Listener:
-    filename = ""
+    filename = ''
     ser = None
     sample_size = 0
     captured = 0
@@ -14,7 +14,7 @@ class Listener:
     is_stopped = False
 
     def __init__(self, i: int, filename: str, ser: Serial, sample: int, csv_values: int):
-        self.filename = "../" + filename + ".listener"
+        self.filename = '../' + filename + '.listener'
         self.ser = ser
         self.sample_size = sample
         self.csv_values = csv_values
@@ -38,9 +38,9 @@ class Listener:
         self.pbar.close()
 
     def run(self):
-        self.pbar = tqdm(total=self.sample_size, leave=False, position=self.i, unit="received")
+        self.pbar = tqdm(total=self.sample_size, leave=False, position=self.i, unit='received')
         self.pbar.set_description(str(self.ser.port))
-        with open(self.filename, "w") as new_file:
+        with open(self.filename, 'w') as new_file:
             csv_writer = csv.writer(new_file)
 
             line_count = 0
@@ -57,18 +57,18 @@ class Listener:
                 # with an E, and ignore it otherwise
                 is_valid = line.startswith(b'B') and line.endswith(b'E')
                 if not is_valid:
-                    # print("Ignored invalid line: " + str(line))
+                    # print('Ignored invalid line: ' + str(line))
                     continue
                 striped_line = line[1:-1]
-                string_nplet = striped_line.split(b",")
+                string_nplet = striped_line.split(b',')
                 if len(string_nplet) != self.csv_values:
-                    # print("Ignored invalid line: " + str(string_nplet))
+                    # print('Ignored invalid line: ' + str(string_nplet))
                     continue
 
                 # Write row to the CSV file
                 row = [self.ser.port, time.time()]
                 for i in range(self.csv_values):
-                    row.append(string_nplet[i].decode("utf-8"))
+                    row.append(string_nplet[i].decode('utf-8'))
 
                 csv_writer.writerow(row)
                 self.captured += 1

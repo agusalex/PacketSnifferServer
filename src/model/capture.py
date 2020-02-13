@@ -1,8 +1,9 @@
-from src.model.Step import Step
+from src.model.step import Step
 
 import csv
 import sys
 from termios import tcflush, TCIFLUSH
+
 
 class Capture:
 
@@ -16,25 +17,25 @@ class Capture:
     def start(self):
         step_n = 0
         while True:
-            value = input("Insert Value for this step (eg Distance):")
-            step = Step(step_n, value, self.u_name + "_" + str(step_n), self.sample_size, self.csv_values,
+            value = input('Insert Value for this step (eg Distance):')
+            step = Step(step_n, value, self.u_name + '_' + str(step_n), self.sample_size, self.csv_values,
                         self.device_list)
             self.step_list.append(step)
             step.start('p')
             print()
             tcflush(sys.stdin, TCIFLUSH)
-            new_step = input("New step? (Y/N):")
-            if new_step == "Y" or new_step == "y" or new_step == "":
+            new_step = input('New step? (Y/N):')
+            if new_step == 'Y' or new_step == 'y' or new_step == '':
                 step_n = step_n + 1
             else:
                 break
         self.merge()
 
     def stop(self):
-        self.stop = True
+        self.is_stopped = True
 
     def merge(self):
-        with open("../" + self.u_name + ".csv", 'w', newline='') as step_file:
+        with open('../' + self.u_name + '.csv', 'w', newline='') as step_file:
             capture_writer = csv.writer(step_file)
             temp_list = []
             for step in self.step_list:

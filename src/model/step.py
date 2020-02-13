@@ -1,7 +1,8 @@
-from src.model.Listener import Listener
+from src.model.listener import Listener
 import csv, operator
 import time
 import keyboard
+
 
 class Step:
 
@@ -11,7 +12,7 @@ class Step:
         self.csv_values = csv_values
         self.listener_list = []
         self.value = value
-        self.u_name_step = "../" + self.value + "_" + u_name_step + ".step"
+        self.u_name_step = '../' + self.value + '_' + u_name_step + '.step'
         self.i = i
 
         self.create_listeners()
@@ -21,7 +22,7 @@ class Step:
     def create_listeners(self):
         for i in range(len(self.device_list)):
             name_i = self.u_name_step[3:len(self.u_name_step) - 5] + str(self.device_list[i].port)
-            name_i = name_i.replace("/", "_")
+            name_i = name_i.replace('/', '_')
             self.listener_list.append(
                 Listener(i + 1, name_i, self.device_list[i].serial, self.sample_size, self.csv_values)
             )
@@ -32,8 +33,8 @@ class Step:
         while self.some_alive() and not self.force_stop:
             if keyboard.is_pressed(force_stop_key):
                 self.force_stop = True
-                print("Finishing step")
-            #time.sleep(1)
+                print('Finishing step')
+            # time.sleep(1)
         for listener in self.listener_list:
             if listener.is_alive():
                 listener.stop()

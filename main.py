@@ -1,5 +1,5 @@
-from src.model.Capture import Capture
-from src.model.Device import Device
+from src.model.capture import Capture
+from src.model.device import Device
 from datetime import datetime
 import json
 
@@ -20,31 +20,31 @@ def create_capture_from_json():
 
 
 def wizard():
-    name = input("What is the name of this capture? (timestamp):")
-    if name == "":
+    name = input('What is the name of this capture? (timestamp):')
+    if name == '':
         now = datetime.now()
-        name = now.strftime("%d_%m_%Y_%H_%M_%S")
-    port_amount = input("Please Insert the amount of Serial ports to listen to (1):")
-    if port_amount == "":
+        name = now.strftime('%d_%m_%Y_%H_%M_%S')
+    port_amount = input('Please Insert the amount of Serial ports to listen to (1):')
+    if port_amount == '':
         port_amount = 1
-    baudrate = input("Please Insert the baudrate of Serial ports to listen to (9600):")
-    sample_size = input("Please Insert the sample size per each step (100):")
-    csv_values = input("Please Insert CSV value amount (default 2):")
-    if csv_values == "":
+    baudrate = input('Please Insert the baudrate of Serial ports to listen to (9600):')
+    sample_size = input('Please Insert the sample size per each step (100):')
+    csv_values = input('Please Insert CSV value amount (default 2):')
+    if csv_values == '':
         csv_values = 2
-    if sample_size == "":
+    if sample_size == '':
         sample_size = 100
     device_list = []
 
-    if port_amount == "":
+    if port_amount == '':
         port_amount = 1
 
     for i in range(int(port_amount)):
-        port = input("Insert port n° " + str(i + 1) + "full path (/dev/ttyUSB0):")
-        if port == "":
-            port = "/dev/ttyUSB0"
+        port = input('Insert port n° ' + str(i + 1) + 'full path (/dev/ttyUSB0):')
+        if port == '':
+            port = '/dev/ttyUSB0'
 
-        if baudrate == "":
+        if baudrate == '':
             device_list.append(Device(port))
         else:
             device_list.append(Device(port, int(baudrate)))
@@ -53,8 +53,8 @@ def wizard():
 
 if __name__ == '__main__':
     capture = None
-    toggle = input("Load from config.json?")
-    if toggle == "Y" or toggle == "y":
+    toggle = input('Load from config.json?')
+    if toggle == 'Y' or toggle == 'y':
         capture = create_capture_from_json()
     else:
         capture = wizard()
